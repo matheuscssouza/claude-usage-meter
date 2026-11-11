@@ -31,14 +31,15 @@ install -m 755 "$ROOT/statusline/statusline.sh" "$CLAUDE_DIR/statusline.sh"
 
 echo "→ updating $SETTINGS"
 [ -f "$SETTINGS" ] || echo '{}' > "$SETTINGS"
-cp "$SETTINGS" "$SETTINGS.bak"
+BACKUP="$SETTINGS.bak.$(date +%Y%m%d%H%M%S)"   # never overwrite an earlier backup
+cp "$SETTINGS" "$BACKUP"
 HOOK='jq -r .session_id | xargs -I{} rm -f "$HOME/.claude/medidor/sessions/{}.json"'
 jq --arg hook "$HOOK" '
   .statusLine = {type: "command", command: "~/.claude/statusline.sh", refreshInterval: 60}
   | .hooks.SessionEnd = ((.hooks.SessionEnd // [])
       | if any(.[]?.hooks[]?; .command == $hook) then .
         else . + [{hooks: [{type: "command", command: $hook, timeout: 5}]}] end)
-' "$SETTINGS.bak" > "$SETTINGS"
+' "$BACKUP" > "$SETTINGS"
 
 if [ "${1:-}" = "--login-item" ]; then
   echo "→ adding login item"
@@ -46,4 +47,4 @@ if [ "${1:-}" = "--login-item" ]; then
 fi
 
 open -g "$APP"
-echo "done. Previous settings saved at $SETTINGS.bak"
+echo "done. Previous settings saved at $BACKUP"

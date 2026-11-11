@@ -77,7 +77,7 @@ cd tools/01_MedidorClaude
 scripts/install.sh              # add --login-item to start at login
 ```
 
-The installer builds the app into `~/Applications/MedidorClaude.app`, copies the status line to `~/.claude/statusline.sh`, and merges `statusLine` plus a `SessionEnd` hook into `~/.claude/settings.json`. Existing settings are kept and a backup is written to `settings.json.bak`. Running it again is safe.
+The installer builds the app into `~/Applications/MedidorClaude.app`, copies the status line to `~/.claude/statusline.sh`, and merges `statusLine` plus a `SessionEnd` hook into `~/.claude/settings.json`. Existing settings are kept and a backup is written to `settings.json.bak.<timestamp>`. Running it again is safe.
 
 Quit the app with `⌘Q` while its panel is open. Remove everything with `scripts/uninstall.sh`.
 

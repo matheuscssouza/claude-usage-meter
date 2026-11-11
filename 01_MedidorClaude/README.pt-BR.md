@@ -24,7 +24,7 @@ cd tools/01_MedidorClaude
 scripts/install.sh              # --login-item para abrir no login
 ```
 
-O instalador compila o app em `~/Applications`, copia a status line para `~/.claude/statusline.sh` e acrescenta `statusLine` e um hook `SessionEnd` ao `~/.claude/settings.json`, com backup em `settings.json.bak`. Para fechar o app, use `⌘Q` com o painel aberto. Para remover tudo: `scripts/uninstall.sh`.
+O instalador compila o app em `~/Applications`, copia a status line para `~/.claude/statusline.sh` e acrescenta `statusLine` e um hook `SessionEnd` ao `~/.claude/settings.json`, com backup em `settings.json.bak.<timestamp>`. Para fechar o app, use `⌘Q` com o painel aberto. Para remover tudo: `scripts/uninstall.sh`.
 
 ## Limitações
 

@@ -1,11 +1,13 @@
 #!/bin/bash
 # Claude Code status line: 5h window, weekly limit, context and session health.
 in=$(cat)
+umask 077   # state files hold project paths; keep them private to the user
 STATE_DIR="${MEDIDOR_STATE_DIR:-$HOME/.claude/medidor}"
 mkdir -p "$STATE_DIR"
 now=$(date +%s)
 echo "$in" > "$STATE_DIR"/usage.json.tmp && mv "$STATE_DIR"/usage.json.tmp "$STATE_DIR"/usage.json
 sid=$(echo "$in" | jq -r '.session_id // empty')
+sid=${sid//[^A-Za-z0-9_-]/}   # defensive: ids become file names
 if [ -n "$sid" ]; then
   mkdir -p "$STATE_DIR"/sessions
   echo "$in" > "$STATE_DIR"/sessions/$sid.tmp && mv "$STATE_DIR"/sessions/$sid.tmp "$STATE_DIR"/sessions/$sid.json

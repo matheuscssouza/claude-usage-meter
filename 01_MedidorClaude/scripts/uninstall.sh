@@ -10,12 +10,13 @@ rm -rf "$HOME/Applications/MedidorClaude.app" "$CLAUDE_DIR/statusline.sh" "$CLAU
 osascript -e 'tell application "System Events" to delete login item "MedidorClaude"' >/dev/null 2>&1 || true
 
 if [ -f "$SETTINGS" ]; then
-  cp "$SETTINGS" "$SETTINGS.bak"
+  BACKUP="$SETTINGS.bak.$(date +%Y%m%d%H%M%S)"   # never overwrite an earlier backup
+cp "$SETTINGS" "$BACKUP"
   jq 'del(.statusLine)
       | if .hooks.SessionEnd then
           .hooks.SessionEnd |= map(select(any(.hooks[]?; (.command // "") | contains("medidor/sessions")) | not))
         else . end
       | if (.hooks.SessionEnd // [1]) == [] then del(.hooks.SessionEnd) else . end' \
-    "$SETTINGS.bak" > "$SETTINGS"
+    "$BACKUP" > "$SETTINGS"
 fi
-echo "removed. Previous settings saved at $SETTINGS.bak"
+echo "removed. Previous settings saved at $BACKUP"
