@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-<key>CFBundleName</key><string>Medidor Claude</string>
-<key>CFBundleIdentifier</key><string>io.github.matheuscssouza.medidorclaude</string>
-<key>CFBundleExecutable</key><string>MedidorClaude</string>
+<key>CFBundleName</key><string>Claude Usage Meter</string>
+<key>CFBundleIdentifier</key><string>io.github.matheuscssouza.claudeusagemeter</string>
+<key>CFBundleExecutable</key><string>ClaudeUsageMeter</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleShortVersionString</key><string>1.0.0</string>
 <key>CFBundleVersion</key><string>1</string>

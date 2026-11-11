@@ -4,7 +4,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-APP="$HOME/Applications/MedidorClaude.app"
+APP="$HOME/Applications/ClaudeUsageMeter.app"
 CLAUDE_DIR="$HOME/.claude"
 SETTINGS="$CLAUDE_DIR/settings.json"
 # Build outside the source tree: synced folders (Dropbox, iCloud) corrupt SwiftPM caches.
@@ -19,9 +19,9 @@ echo "→ building"
 swift build -c release --package-path "$ROOT" --scratch-path "$BUILD_DIR" >/dev/null
 
 echo "→ installing app to $APP"
-pkill -x MedidorClaude 2>/dev/null || true
+pkill -x ClaudeUsageMeter 2>/dev/null || true
 mkdir -p "$APP/Contents/MacOS"
-cp "$BUILD_DIR/release/MedidorClaude" "$APP/Contents/MacOS/"
+cp "$BUILD_DIR/release/ClaudeUsageMeter" "$APP/Contents/MacOS/"
 cp "$ROOT/Resources/Info.plist" "$APP/Contents/Info.plist"
 codesign --force --sign - "$APP" >/dev/null 2>&1
 
@@ -33,7 +33,7 @@ echo "→ updating $SETTINGS"
 [ -f "$SETTINGS" ] || echo '{}' > "$SETTINGS"
 BACKUP="$SETTINGS.bak.$(date +%Y%m%d%H%M%S)"   # never overwrite an earlier backup
 cp "$SETTINGS" "$BACKUP"
-HOOK='jq -r .session_id | xargs -I{} rm -f "$HOME/.claude/medidor/sessions/{}.json"'
+HOOK='jq -r .session_id | xargs -I{} rm -f "$HOME/.claude/usage-meter/sessions/{}.json"'
 jq --arg hook "$HOOK" '
   .statusLine = {type: "command", command: "~/.claude/statusline.sh", refreshInterval: 60}
   | .hooks.SessionEnd = ((.hooks.SessionEnd // [])
