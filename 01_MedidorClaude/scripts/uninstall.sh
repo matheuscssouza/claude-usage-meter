@@ -1,0 +1,21 @@
+#!/bin/bash
+# Removes the app, the status line and the Claude Code settings entries added by install.sh.
+set -euo pipefail
+
+CLAUDE_DIR="$HOME/.claude"
+SETTINGS="$CLAUDE_DIR/settings.json"
+
+pkill -x MedidorClaude 2>/dev/null || true
+rm -rf "$HOME/Applications/MedidorClaude.app" "$CLAUDE_DIR/statusline.sh" "$CLAUDE_DIR/medidor"
+osascript -e 'tell application "System Events" to delete login item "MedidorClaude"' >/dev/null 2>&1 || true
+
+if [ -f "$SETTINGS" ]; then
+  cp "$SETTINGS" "$SETTINGS.bak"
+  jq 'del(.statusLine)
+      | if .hooks.SessionEnd then
+          .hooks.SessionEnd |= map(select(any(.hooks[]?; (.command // "") | contains("medidor/sessions")) | not))
+        else . end
+      | if (.hooks.SessionEnd // [1]) == [] then del(.hooks.SessionEnd) else . end' \
+    "$SETTINGS.bak" > "$SETTINGS"
+fi
+echo "removed. Previous settings saved at $SETTINGS.bak"
