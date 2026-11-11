@@ -35,6 +35,14 @@ final class UsageStore: ObservableObject {
         }
     }
 
+    /// Fixed sample data, used to render the README screenshots (`--snapshot`). Does not read any file.
+    init(demoPayload: Payload, sessions: [Session], now: Date) {
+        self.payload = demoPayload
+        self.sessions = sessions
+        self.now = now
+        self.updatedAt = now
+    }
+
     // MARK: Derived values
 
     var fiveHourPercent: Double { payload?.rateLimits?.fiveHour?.usedPercentage ?? 0 }

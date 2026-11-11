@@ -151,7 +151,7 @@ struct UsagePanel: View {
             if store.isStale && store.hasLimits {
                 Label("No recent updates", systemImage: "wifi.slash").font(.footnote).foregroundStyle(.orange)
             } else if let updatedAt = store.updatedAt {
-                Text("Updated \(updatedAt.formatted(.relative(presentation: .named)))")
+                Text("Updated \(updatedAt.formatted(.relative(presentation: .named).locale(Locale(identifier: "en_US"))))")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }

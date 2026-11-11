@@ -4,12 +4,12 @@ import AppKit
 /// Rendered as a non-template image so the health colors survive the menu bar's tinting.
 @MainActor
 enum MenuBarIcon {
-    static func image(for store: UsageStore) -> NSImage {
+    static func image(for store: UsageStore, labelColor: NSColor = .labelColor) -> NSImage {
         let colors = store.sessions.prefix(6).map { NSColor(store.health(of: $0).color) }
         let label = "\(store.sessions.count)" as NSString
         let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: 13, weight: .semibold),
-            .foregroundColor: NSColor.labelColor,
+            .foregroundColor: labelColor,
         ]
 
         let height: CGFloat = 18, dot: CGFloat = 11, gap: CGFloat = 4

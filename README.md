@@ -7,6 +7,15 @@
 
 A native macOS menu bar app and a terminal status line that show how much of your **Claude Code** usage is left, how healthy each open session is, and how long the prompt cache stays valid.
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/panel-dark.png">
+    <img src="docs/images/panel-light.png" alt="Claude Usage Meter menu bar panel showing the 5-hour window, the weekly limit and three open sessions with their health" width="360">
+  </picture>
+</p>
+
+The same data is available in the terminal status line:
+
 ```
 5h ██████░░░░ 62% ↻2h5m │ Wk ███░░░░░░░ 31% ↻2d7h │ Ctx 18% 180k/1.0M │ 🔥 active 42 min │ ● attention
 ```
@@ -108,6 +117,7 @@ Sources/ClaudeUsageMeter/
 ├── Models.swift          payload types, Session, Health, CacheState
 ├── UsageStore.swift      reads state files, publishes to the UI
 ├── MenuBarIcon.swift     draws the menu bar item
+├── Snapshot.swift        renders the README screenshots from sample data
 └── Views.swift           UsageRing, SessionRow, UsagePanel
 statusline/statusline.sh  renders the status line and writes state
 scripts/                  install and uninstall
@@ -120,6 +130,12 @@ Resources/Info.plist      bundle metadata (LSUIElement: no Dock icon)
 ```bash
 tests/statusline.test.sh                                # status line tests
 swift build -c release --scratch-path "$(mktemp -d)"    # build outside synced folders
+```
+
+The screenshots in `docs/images/` are generated from sample data, never from real sessions:
+
+```bash
+.build/release/ClaudeUsageMeter --snapshot docs/images
 ```
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
